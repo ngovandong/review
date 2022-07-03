@@ -3,6 +3,10 @@ import VueRouter from 'vue-router'
 import store from '../store'
 import ContainerView from '../views/ContainerView.vue'
 import HomeView from '../views/HomeView.vue'
+import MyView from '../views/MyView.vue'
+import AdminView from '../views/AdminView.vue'
+import AddPowerUser from '../views/AddPowerUser.vue'
+import UserDetail from '../views/UserDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -10,16 +14,45 @@ const routes = [
   {
     path: '/',
     component: ContainerView,
-
+    meta: {
+      requireLogin: true
+    },
     children: [
       {
-        path: "",
+        path: "/",
         component: HomeView,
         name: "home",
-        meta: {
-          requireLogin: true
-        },
-      }
+      },
+      {
+        path: "/my",
+        component: MyView,
+        name: "my",
+
+      },
+      {
+        path: "/project/:id",
+        component: () => import("../views/ProjectView.vue"),
+        props: true,
+      },
+      {
+        path: "/admin",
+        component: AdminView,
+        name: "admin",
+        children: [
+
+        ]
+      },
+      {
+        path: "/add_power_user",
+        component: AddPowerUser,
+        name: "add_power_user",
+      },
+      {
+        path: "/user_detail/:id",
+        component: UserDetail,
+        name: "user_detail",
+        props: true,
+      },
     ]
 
   },
@@ -44,7 +77,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) =>
 {
-  console.log(store.state.isAuthenticated)
   if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
     next({ name: 'login', query: { to: to.path } });
   } else {

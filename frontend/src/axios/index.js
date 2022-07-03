@@ -26,7 +26,7 @@ privateAxios.interceptors.response.use(resp => resp, async error =>
         if (status === 200) {
             privateAxios.defaults.headers.common['Authorization'] = `Bearer ${data.access}`;
             store.commit("setToken", data)
-            console.log(error.config.headers["Authorization"] = `Bearer ${data.access}`)
+            error.config.headers["Authorization"] = `Bearer ${data.access}`
             return privateAxios(error.config);
         }
     }
@@ -35,4 +35,4 @@ privateAxios.interceptors.response.use(resp => resp, async error =>
 });
 
 
-export { privateAxios }
+export { privateAxios, baseURL }

@@ -21,12 +21,11 @@
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </template>
-      <v-divider vertical class=""></v-divider>
-
-      <v-divider vertical class=""></v-divider>
-      <v-avatar size="36">
-        <img :src="'http://127.0.0.1:8000' + thumbnail" alt="John" />
-      </v-avatar>
+      <v-btn icon x-large to="/my">
+        <v-avatar size="36">
+          <img :src="thumbnail" alt="John" />
+        </v-avatar>
+      </v-btn>
     </v-app-bar>
     <drawer-left v-model="drawer" />
     <v-dialog v-model="showCart" persistent max-width="600px">

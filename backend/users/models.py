@@ -7,14 +7,16 @@ from django.core.files import File
 
 # Create your models here.
 
+
 class CustomUser(AbstractUser):
     ROLES = [
         ('AD', 'Admin'),
         ('PU', 'Power user'),
         ('NU', 'Normal user')
     ]
-    phone_number = models.CharField(max_length=255, unique=True)
-    address = models.CharField(max_length=255)
+    phone_number = models.CharField(
+        max_length=255, unique=True, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
     role = models.CharField(max_length=2, choices=ROLES, default='NU')
     avatar = models.ImageField(upload_to='uploads/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
@@ -43,4 +45,3 @@ class CustomUser(AbstractUser):
         thumb_io = BytesIO()
         img.save(thumb_io, "JPEG", quality=85)
         return File(thumb_io, name=image.name)
-

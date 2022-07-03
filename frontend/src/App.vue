@@ -9,10 +9,5 @@ export default {
   data: () => ({
     //
   }),
-  beforeCreate() {
-    if (this.$store.state.isAuthenticated) {
-      this.$store.dispatch("fetchUser");
-    }
-  },
 };
 </script>

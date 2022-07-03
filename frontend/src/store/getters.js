@@ -1,4 +1,21 @@
+import { baseURL } from "@/axios"
 export default {
-    allShoes: (state) => state.listShoe,
-    thumbnail: (state) => state.user.thumbnail
+    thumbnail: (state) =>
+    {
+        if (state.user)
+            return baseURL + state.user.thumbnail
+        return null
+    },
+    avatar: (state) =>
+    {
+        if (state.user)
+            return baseURL + state.user.avatar
+        return null
+    },
+    role: (state) =>
+    {
+        if (state.user)
+            return state.user.role
+        return null
+    },
 }

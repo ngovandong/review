@@ -18,6 +18,9 @@ export default {
   components: {
     NavBar,
   },
+  beforeCreate() {
+    this.$store.dispatch("fetchUser");
+  },
 };
 </script>
 <style lang=""></style>

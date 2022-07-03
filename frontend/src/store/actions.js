@@ -1,7 +1,6 @@
 import router from '../router'
 import axios from 'axios'
 import { privateAxios } from '@/axios';
-privateAxios
 export default {
     fetchUser(context)
     {
@@ -47,15 +46,20 @@ export default {
                 const token = response.data
                 context.commit('setToken', token)
                 axios.defaults.headers.common["Authorization"] = "Bearer " + token.access
-                const toPath = router.history.current.query.to || '/'
-                router.push(toPath)
+
             }).then(
                 () =>
                 {
                     privateAxios.get("api/users/my/").then(
                         res =>
                         {
-                            context.commit('setUser', res.data)
+                            user = res.data;
+                            // context.commit('setUser', user);
+                            if (user.role == 'AD') {
+                                router.push('/admin')
+                            } else {
+                                router.push("/")
+                            }
                         }
                     )
                 }
@@ -64,8 +68,13 @@ export default {
     signup(context, bodyFormData)
     {
         return axios
-            .post("api/users/signup/", bodyFormData, { headers: { "Content-Type": "multipart/form-data" } })
-
+            .post("api/users/normal/", bodyFormData, { headers: { "Content-Type": "multipart/form-data" } })
+            .then(
+                () =>
+                {
+                    router.push("/login")
+                }
+            )
     },
     refreshToken(context)
     {

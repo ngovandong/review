@@ -1,20 +1,5 @@
 export default {
-    initializeStore(state)
-    {
-        const has = JSON.parse(localStorage.getItem('token'))
-        if (has) {
-            state.token = JSON.parse(localStorage.getItem('token'))
-            state.isAuthenticated = true
-        }
-    },
-    setlistShoe(state, shoes)
-    {
-        state.listShoe = shoes;
-    },
-    setCategories(state, categories)
-    {
-        state.categories = categories;
-    },
+
     setSearchString(state, text)
     {
         state.searchString = text
@@ -24,10 +9,6 @@ export default {
         state.token = token
         state.isAuthenticated = true
         localStorage.setItem("token", JSON.stringify(token))
-    },
-    setCart(state, items)
-    {
-        state.cart.items = items
     },
     setUser(state, user)
     {
@@ -39,5 +20,7 @@ export default {
         state.token = null
         localStorage.setItem('token', null)
         state.isAuthenticated = false
+        state.user = null
+
     }
 }
