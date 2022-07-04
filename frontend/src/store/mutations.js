@@ -1,3 +1,4 @@
+
 export default {
 
     setSearchString(state, text)
@@ -21,6 +22,5 @@ export default {
         localStorage.setItem('token', null)
         state.isAuthenticated = false
         state.user = null
-
     }
 }

@@ -1,6 +1,8 @@
 import router from '../router'
 import axios from 'axios'
 import { privateAxios } from '@/axios';
+import jwt_decode from "jwt-decode";
+
 export default {
     fetchUser(context)
     {
@@ -45,25 +47,14 @@ export default {
             {
                 const token = response.data
                 context.commit('setToken', token)
-                axios.defaults.headers.common["Authorization"] = "Bearer " + token.access
-
-            }).then(
-                () =>
-                {
-                    privateAxios.get("api/users/my/").then(
-                        res =>
-                        {
-                            user = res.data;
-                            // context.commit('setUser', user);
-                            if (user.role == 'AD') {
-                                router.push('/admin')
-                            } else {
-                                router.push("/")
-                            }
-                        }
-                    )
+                privateAxios.defaults.headers.common["Authorization"] = "Bearer " + token.access
+                const userDecoded = jwt_decode(token.access)
+                if (userDecoded.role == 'AD') {
+                    router.push('/admin')
+                } else {
+                    router.push("/")
                 }
-            )
+            })
     },
     signup(context, bodyFormData)
     {

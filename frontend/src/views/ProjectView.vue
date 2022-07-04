@@ -11,6 +11,7 @@
         title="To Do"
         :tickets="this.todos()"
         nextStatus="IP"
+        :backStatus="null"
         :fetchProject="fetchProject"
       />
       <table-card
@@ -22,6 +23,7 @@
         title="In Progress"
         :tickets="this.inProgresses()"
         nextStatus="DO"
+        backStatus="TD"
         :fetchProject="fetchProject"
       />
       <table-card
@@ -33,12 +35,13 @@
         title="Done"
         :tickets="this.dones()"
         :nextStatus="null"
+        backStatus="IP"
         :fetchProject="fetchProject"
       />
     </v-row>
 
     <add-ticket-dialog
-      v-if="project"
+      v-if="project && show"
       :fetchProject="fetchProject"
       :show="show"
       :hide="

@@ -21,10 +21,21 @@
 
                 <v-list-item-action>
                   <v-btn
+                    v-if="backStatus"
+                    @click="
+                      () => {
+                        next(ticket, backStatus);
+                      }
+                    "
+                    icon
+                  >
+                    <v-icon color="orange"> arrow_back </v-icon>
+                  </v-btn>
+                  <v-btn
                     v-if="nextStatus"
                     @click="
                       () => {
-                        next(ticket);
+                        next(ticket, nextStatus);
                       }
                     "
                     icon
@@ -49,12 +60,19 @@
 import { privateAxios } from "@/axios";
 
 export default {
-  props: ["showDialog", "title", "tickets", "nextStatus", "fetchProject"],
+  props: [
+    "showDialog",
+    "title",
+    "tickets",
+    "nextStatus",
+    "backStatus",
+    "fetchProject",
+  ],
   methods: {
-    next(ticket) {
+    next(ticket, status) {
       privateAxios
         .patch(`/api/ticket/${ticket.id}/`, {
-          status: this.nextStatus,
+          status: status,
         })
         .then(() => {
           this.fetchProject();

@@ -5,7 +5,8 @@ from rest_framework import viewsets, mixins, status, permissions
 from .models import Workspace
 from .serializers import ProjectSerializer, TicketSerializer, WorkspaceSerializer
 # Create your views here.
-
+from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
 
 class WorkspaceViewset(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
@@ -24,6 +25,16 @@ class WorkspaceViewset(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+    @action(detail=True, methods=["POST"], name='search_user')
+    def add_user(self, request,pk=None):
+        w = get_object_or_404(Workspace, pk=pk)
+        user = get_object_or_404(CustomUser,pk=request.data.get("user_id"))
+        try:
+            w.users.add(user)
+            w.save()
+            return Response(status=201)
+        except:
+            return Response(status=400)
 
 class MyWorkspaceView(APIView):
     permission_classes = [permissions.IsAuthenticated]

@@ -4,8 +4,12 @@ from rest_framework.response import Response
 from .serializers import PowerUserSerializer, UserSerializer
 from .models import CustomUser
 from rest_framework import viewsets, mixins, status, permissions
-from .permissions import AdminPermission
+from .permissions import PowerUserOrAdminPermission
 from rest_framework.decorators import action
+from trello.models import Workspace
+from django.shortcuts import get_object_or_404
+
+
 # Create your views here.
 
 
@@ -18,13 +22,14 @@ class MyView(APIView):
 
 
 class NormalUserViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                        mixins.RetrieveModelMixin,
                         viewsets.GenericViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
 
 class AdminViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated, AdminPermission]
+    permission_classes = [permissions.IsAuthenticated, PowerUserOrAdminPermission]
     queryset = CustomUser.objects.all()
     serializer_class = PowerUserSerializer
 
@@ -43,3 +48,22 @@ class AdminViewSet(viewsets.ModelViewSet):
             serializer = UserSerializer(qs, many=True)
             return Response(serializer.data)
         return Response([])
+
+
+    @action(detail=False, methods=["GET"], name='workspace_user')
+    def workspace_user(self, request):
+        id = request.query_params.get('id')
+
+        try:
+            w = Workspace.objects.get(pk=id)
+            serializer = UserSerializer(instance=w.users, many=True)
+            return Response(serializer.data)
+        except Workspace.DoesNotExist:
+            return Response(status=400)
+
+    @action(detail=False, methods=["GET"], name='search_user')
+    def search_user(self, request):
+        email = request.query_params.get('email')
+        user=get_object_or_404(CustomUser, email=email)
+        serializer=UserSerializer(user)
+        return Response(serializer.data)

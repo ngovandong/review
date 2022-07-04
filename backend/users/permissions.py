@@ -16,7 +16,7 @@ class PowerUserPermission(permissions.BasePermission):
 
 
 class PowerUserOrAdminPermission(permissions.BasePermission):
-    message = 'Check is power user'
+    message = 'Check is power user or Admin'
 
     def has_permission(self, request, view):
         return request.user.role == "PU" or "AD"

@@ -72,7 +72,7 @@ export default {
     };
   },
   created() {
-    privateAxios.get(`/api/users/power/${this.id}/`).then((res) => {
+    privateAxios.get(`/api/users/normal/${this.id}/`).then((res) => {
       this.user = res.data;
     });
   },

@@ -11,7 +11,7 @@
                 v-for="(space, i) in workspaces"
                 :key="i"
                 :setSelectedWorkspace="() => setSelectedWorkspace(i)"
-                :isOwner="user.id == space.owner_id"
+                :isOwner="user.id == space.owner_id && role == 'PU'"
                 :space="space"
               />
             </v-list-item-group>
@@ -51,6 +51,7 @@
     </v-row>
     <add-workspace-dialog
       :fetchWorkspace="fetchWorkspace"
+      v-if="showAddWorkspace"
       :show="showAddWorkspace"
       :hide="
         () => {
@@ -118,7 +119,7 @@ export default {
     },
   },
 
-  created() {
+  mounted() {
     this.fetchWorkspace();
   },
 };

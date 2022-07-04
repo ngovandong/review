@@ -9,7 +9,7 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
-                label="Workspace name"
+                label="Ticket name"
                 v-model="name"
                 required
               ></v-text-field>

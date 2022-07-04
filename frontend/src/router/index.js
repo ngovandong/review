@@ -7,6 +7,7 @@ import MyView from '../views/MyView.vue'
 import AdminView from '../views/AdminView.vue'
 import AddPowerUser from '../views/AddPowerUser.vue'
 import UserDetail from '../views/UserDetail.vue'
+import WorkspaceUser from '../views/WorkspaceUser.vue'
 
 Vue.use(VueRouter)
 
@@ -51,6 +52,12 @@ const routes = [
         path: "/user_detail/:id",
         component: UserDetail,
         name: "user_detail",
+        props: true,
+      },
+      {
+        path: "/space_user/:id",
+        component: WorkspaceUser,
+        name: "space_user",
         props: true,
       },
     ]

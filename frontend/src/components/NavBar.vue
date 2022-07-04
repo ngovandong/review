@@ -10,17 +10,6 @@
       >
 
       <v-spacer></v-spacer>
-      <template v-if="showSearchBar">
-        <v-text-field
-          class="mt-5"
-          v-if="showSearch"
-          @change="setSearchString($event)"
-          autofocus
-        ></v-text-field>
-        <v-btn icon @click="switchSearch">
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-      </template>
       <v-btn icon x-large to="/my">
         <v-avatar size="36">
           <img :src="thumbnail" alt="John" />
@@ -41,7 +30,6 @@ export default {
   data() {
     return {
       drawer: null,
-      showSearch: false,
       showCart: false,
     };
   },
