@@ -9,10 +9,8 @@
       <v-list-item-title>{{ space.name }}</v-list-item-title>
     </template>
 
-    <v-list-item>
-      <v-list-item-title @click="$router.push(`/space_user/${space.id}`)"
-        >Management</v-list-item-title
-      >
+    <v-list-item @click="$router.push(`/space_user/${space.id}`)">
+      <v-list-item-title>Management</v-list-item-title>
       <v-list-item-icon>
         <v-icon>mdi-account-multiple-outline</v-icon>
       </v-list-item-icon>
